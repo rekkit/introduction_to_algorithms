@@ -1,43 +1,47 @@
 t = [1, -2, 1, -3, -1, 2, 5, 10, -30]
 
 
-def merge(a, p, q, r):
-    v = a[p: q]
-    w = a[q: r]
-    n1 = q - p - 1
-    n2 = r - q - 1
+class MergeSort:
+    @staticmethod
+    def _merge(a, p, q, r):
+        v = a[p: q]
+        w = a[q: r]
 
-    if p == q:
-        a[p:r] = w
-        return None
-    elif q == r:
-        a[p:r] = v
-        return None
+        i = 0  # used for iterating through v
+        j = 0  # -/- w
+        k = p  # -/- a[p: r]
 
-    i = 0
-    j = 0
-    k = 0
-    while i <= n1 and j <= n2:
-        if v[i] < w[j]:
-            a[p + k] = v[i]
-            i += 1
-        else:
-            a[p + k] = w[j]
-            j += 1
-        k += 1
+        while i < len(v) or j < len(w):
+            if i == len(v):
+                a[k: r] = w[j:]
+                break
+            elif j == len(w):
+                a[k: r] = v[i:]
+                break
 
-    if i > n1:
-        a[p + k:r] = w[j:]
-    else:
-        a[p + k:r] = v[i:]
+            if v[i] < w[j]:
+                a[k] = v[i]
+                i += 1
+            else:
+                a[k] = w[j]
+                j += 1
+
+            k += 1
+
+    def _merge_sort(self, a, p, r):
+        q = (r + p) // 2
+        if p < q < r:
+            self._merge_sort(a, p, q)
+            self._merge_sort(a, q, r)
+            self._merge(a, p, q, r)
+
+    def merge_sort(self, v, copy=False):
+        if copy:
+            v = v[:]
+        self._merge_sort(v, 0, len(v))
+
+        return v if copy else None
 
 
-def merge_sort(a, p, r):
-    if p < r - 1:
-        q = (p + r) // 2
-        merge_sort(a, p, q)
-        merge_sort(a, q, r)
-        return merge(a, p, q, r)
-
-
-merge_sort(t, 0, len(t))
+ms = MergeSort()
+ms.merge_sort(t, copy=True)

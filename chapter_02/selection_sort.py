@@ -1,21 +1,17 @@
-v = [1, -1, 2, 3, -5, 0, 1]
+w = [1, -1, 2, 3, -5, 0, 1]
 
 
 def selection_sort(v):
-    w = v[:]
-
-    for i in range(len(w) - 1):
-        current_extreme = w[i]
+    for i in range(len(v) - 1):
+        current_extreme = v[i]
         extreme_index = i
 
-        for j in range(i + 1, len(w)):
-            if current_extreme > w[j]:
-                current_extreme = w[j]
+        for j in range(i, len(v)):
+            if current_extreme > v[j]:
+                current_extreme = v[j]
                 extreme_index = j
 
-        w[i], w[extreme_index] = current_extreme, w[i]
-
-    return w
+        v[extreme_index], v[i] = v[i], current_extreme
 
 
-selection_sort(v)
+selection_sort(w)

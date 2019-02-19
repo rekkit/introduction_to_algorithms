@@ -1,48 +1,34 @@
 import numpy as np
 
-v = [10, 200, 6, 1000, 5, 7, 30, 1, -1]
+w = [10, 200, 6, 1000, 5, 7, 30, 1, -1]
 
 
-def partition(a, p, r):
-    if p == r:
-        return p
+class QuickSort:
+    @staticmethod
+    def _partition(v, p, r):
+        x = v[r - 1]
+        i = p - 1
 
-    x = a[r]
-    i = p - 1
-    for j in range(p, r):
-        if x >= a[j]:
-            i += 1
-            a[i], a[j] = a[j], a[i]
-    a[i + 1], a[r] = a[r], a[i + 1]
+        for j in range(p, r):
+            if x > v[j]:
+                i += 1
+                v[i], v[j] = v[j], v[i]
+        v[i + 1], v[r - 1] = v[r - 1], v[i + 1]
 
-    return i + 1
+        return i + 1
 
-def random_partition(a, p, r):
-    if p == r:
-        return p
+    def _quick_sort(self, v, p, r):
+        q = self._partition(v, p, r)
 
-    rand_i = np.random.randint(p, r + 1)
-    a[r], a[rand_i] = a[rand_i], a[r]
-    x = a[r]
-    i = p - 1
+        if p < q - 1:
+            self._quick_sort(v, p, q)
 
-    for j in range(p, r):
-        if x >= a[j]:
-            i += 1
-            a[i], a[j] = a[j], a[i]
-    a[i + 1], a[r] = a[r], a[i + 1]
+        if q < r - 1:
+            self._quick_sort(v, q, r)
 
-    return i + 1
+    def sort(self, v):
+        self._quick_sort(v, 0, len(v))
 
 
-def quicksort(v, p, r):
-    if p < r:
-        q = partition(v, p, r)
-        if q - 1 > p:
-            quicksort(v, p, q - 1)
-        if r > q:
-            quicksort(v, q, r)
-
-
-quicksort(v, 0, len(v) - 1)
-v
+qs = QuickSort()
+qs.sort(w)
